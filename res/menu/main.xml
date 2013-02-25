@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/toggle_traffic"
+        android:checkable="true"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/toggle_traffic"
+        android:titleCondensed="Persist"/>
+    <item
+        android:id="@+id/toggle_charging"
+        android:checkable="true"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/toggle_charging"
+        android:titleCondensed="Persist"/>
+    <item
+        android:id="@+id/toggle_bus"
+        android:checkable="true"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/toggle_bus"
+        android:titleCondensed="Persist"/>
+
+</menu>
