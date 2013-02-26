@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +24,8 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 	private GoogleMap googleMap;
 	private static final String LOG_TAG = "digimap";
 	private Marker marker, markerb;
+	private Location loc2;
+	private float totald = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,45 +43,45 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the
 		// map.
-		if (googleMap == null) {
-			// Try to obtain the map from the SupportMapFragment.
-			// Getting reference to the SupportMapFragment of activity_main.xml
-			SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager()
-					.findFragmentById(R.id.map);
+		// if (googleMap == null) {
+		// Try to obtain the map from the SupportMapFragment.
+		// Getting reference to the SupportMapFragment of activity_main.xml
+		SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.map);
 
-			// Getting GoogleMap object from the fragment
-			googleMap = fm.getMap();
+		// Getting GoogleMap object from the fragment
+		googleMap = fm.getMap();
 
-			// Enabling MyLocation Layer of Google Map
-			googleMap.setMyLocationEnabled(true);
+		// Enabling MyLocation Layer of Google Map
+		googleMap.setMyLocationEnabled(true);
 
-			// Getting LocationManager object from System Service
-			// LOCATION_SERVICE
-			LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		// Getting LocationManager object from System Service
+		// LOCATION_SERVICE
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-			// Creating a criteria object to retrieve provider
-			Criteria criteria = new Criteria();
+		// Creating a criteria object to retrieve provider
+		Criteria criteria = new Criteria();
 
-			// Getting the name of the best provider
-			String provider = locationManager.getBestProvider(criteria, true);
+		// Getting the name of the best provider
+		String provider = locationManager.getBestProvider(criteria, true);
 
-			// Getting Current Location
-			Location location = locationManager.getLastKnownLocation(provider);
-
-			if (location != null) {
-				onLocationChanged(location);
-			}
-			locationManager.requestLocationUpdates(provider, 20000, 0,
-					(LocationListener) this);
-
+		// Getting Current Location
+		Location location = locationManager.getLastKnownLocation(provider);
+		loc2 = location;
+		if (location != null) {
+			onLocationChanged(location);
 		}
-		if (googleMap != null){
+		locationManager.requestLocationUpdates(provider, 500, 0,
+				(LocationListener) this);
+
+		// }
+		if (googleMap != null) {
 			marker = googleMap.addMarker(new MarkerOptions().position(
 					new LatLng(59.90961, 10.727077)).title("Charging Station"));
-			
+
 			markerb = googleMap.addMarker(new MarkerOptions().position(
-					new LatLng(59.904779,10.788746)).title("Bus Lane"));
-			
+					new LatLng(59.904779, 10.788746)).title("Bus Lane"));
+
 			marker.setVisible(false);
 			markerb.setVisible(false);
 		}
@@ -105,8 +108,13 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 		// Zoom in the Google Map
 		googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
+		float ld = location.distanceTo(loc2);
+		totald+=ld;
+		loc2 = location;
+
 		// Setting latitude and longitude in the TextView tv_location
-		// tvLocation.setText("Latitude:" + latitude + ", Longitude:"+ longitude
+		TextView tvLocation = (TextView) findViewById(R.id.tvLocation);
+		tvLocation.setText("Latitude:" + latitude + ", Longitude:" + longitude + " - Distance: "+ld+ " - Total distane: "+totald);
 		// );
 
 	}
@@ -131,7 +139,6 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 	 */
 	private void setUpCharge(boolean b) {
 
-
 		// googleMap.setMyLocationEnabled(true);
 		marker.setVisible(b);
 	}
@@ -141,9 +148,8 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 	 */
 	private void setUpBus(boolean b) {
 
-
 		// googleMap.setMyLocationEnabled(true);
-		Log.d(LOG_TAG, "setUpBus - bool: "+b);
+		Log.d(LOG_TAG, "setUpBus - bool: " + b);
 		markerb.setVisible(b);
 
 	}
