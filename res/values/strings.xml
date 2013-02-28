@@ -5,6 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="toggle_traffic">Traffic</string>
     <string name="toggle_charging">Charging Stations</string>
-    <string name="toggle_bus">Bus Lanes</string>
+    <string name="toggle_toll">Toll</string>
 
 </resources>

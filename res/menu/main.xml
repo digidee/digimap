@@ -18,10 +18,10 @@
         android:title="@string/toggle_charging"
         android:titleCondensed="Persist"/>
     <item
-        android:id="@+id/toggle_bus"
+        android:id="@+id/toggle_toll"
         android:checkable="true"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/toggle_bus"
+        android:title="@string/toggle_toll"
         android:titleCondensed="Persist"/>
 
 </menu>
